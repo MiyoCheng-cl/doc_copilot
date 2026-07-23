@@ -68,17 +68,19 @@ Uncaught TypeError: ...
 
    這時候要做 source-level fix。例如 VITE-001 的 root cause 是 `@mui/material/Popper`，穩定修法是在只需要定位功能時改用 `@mui/base/PopperUnstyled`。
 
-## 給 AI 的 Prompt
+## 給 AI 的 Prompt (沒試過, 但大概檢查步驟是這樣)
 
 ```text
-請處理 MyEdit Vite dev server chunk exception。不要執行 git reset，不要修改無關檔案。
+請處理 Vite dev server chunk exception。不要執行 git reset，不要修改無關檔案。
 
 目標：
 1. 檢查是否有多個 npm run start / vite process 正在跑，並停止舊的 Vite process。
 2. 只清除 node_modules/.vite optimizer cache。
 3. 使用 npm run start -- --force 重新啟動。
-4. 等待最多 120 秒，確認 https://poc.myedit.online/ 是否回 200。
+4. 等待最多 120 秒，確認 {myedit url} 是否回 200。
 5. 如果 console 仍指向 /node_modules/.vite/deps/chunk-*.js，請用 curl 讀取該 chunk，並根據 chunk 裡的 source comment 回推 node_modules source。
 6. 如果舊 chunk URL 回 504 Outdated Optimize Dep，請判定為瀏覽器仍載入舊 module graph，提醒使用者 Ctrl + Shift + R 或關掉 tab 重開。
 7. 如果 forced re-optimization 後仍是同一個 dependency crash，請回報 root cause，並提出最小 source-level fix。
+
+注意: myedit url要自己填
 ```
